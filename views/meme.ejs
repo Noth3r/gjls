@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We"
+      crossorigin="anonymous"
+    />
+    <title>Meme Generator</title>
+  </head>
+  <body>
+    <nav class="navbar sticky-top navbar-light bg-light">
+      <div class="container-fluid">
+        <a class="navbar-brand" style="margin-left: 20px" href="/">Hehe</a>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/">Home</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="container justify-content-center">
+      <div class="card text-center" style="width: auto; height: 650px">
+        <img
+          src="https://i.imgflip.com/4acd7j.png"
+          class="card-img-top"
+          style="
+            object-fit: scale-down;
+            width: 100%;
+            height: 525px;
+            border: solid 1px #ccc;
+          "
+        />
+        <div class="card-body">
+          <h5 class="card-title">Laughing Leo</h5>
+          <button class="btn btn-primary" id="addButton">Switch</button>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script type="text/javascript">
+    let addBtn = document.querySelector("#addButton");
+    let img = document.querySelector("img");
+    let name = document.querySelector(".card-title");
+
+    function randNumber(min, max) {
+      return Math.floor(Math.random() * (max - min)) + min;
+    }
+
+    const getApi = async (url) => {
+      const data = await fetch(url, {
+        method: "GET",
+      });
+      return data.json();
+    };
+
+    addBtn.addEventListener("click", async (e) => {
+      let memes = await getApi("https://api.imgflip.com/get_memes");
+      let data = memes.data.memes;
+      let num = randNumber(0, 100);
+      img.src = data[num].url;
+      name.innerHTML = data[num].name;
+    });
+  </script>
+</html>

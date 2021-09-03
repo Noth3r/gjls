@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We"
+      crossorigin="anonymous"
+    />
+    <title>Welcome Home</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="cuaca" style="text-align: center;">
+        <h6>Today's Weather in <%= cuaca.name%> is <%= cuaca.weather[0].main%></h6>
+        <h1 class="title mt-3">What's Do You Want?</h1>
+      </div>
+
+        <div class="row mt-5">
+          <div class="col-sm-4 mb-3">
+            <div class="card">
+              <div class="card-body text-center">
+                <h5 class="card-title">Meme Generator</h5>
+                <br>
+                <br>
+                <a href="/meme" class="btn btn-primary">Go somewhere</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-4 mb-3">
+            <div class="card">
+              <div class="card-body text-center">
+                <h5 class="card-title">LK21 Bypass Link</h5>
+                <input type="text" style="margin-top:10px; width:75%"class="inputLK" />
+                <br>
+                <a href="#" class="movie btn btn-primary mt-2">Go somewhere</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-4 mb-3">
+            <div class="card">
+              <div class="card-body text-center">
+                <h5 class="card-title">Want to Play Uno?</h5>
+                <br>
+                <br>
+                <a href="https://uno-game-jet.vercel.app/" target="_blank" class="btn btn-primary">Go somewhere</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script type="text/javascript">
+    let input = document.querySelector(".inputLK");
+    let movie = document.querySelector(".movie");
+
+    let key = "";
+    input.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") {
+        return;
+      }
+      key += e.key;
+      movie.href = `/lk21/${key}`;
+    });
+
+    movie.addEventListener("click", (e) => {
+      input.value = ""
+    })
+  </script>
+</html>
