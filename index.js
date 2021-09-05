@@ -56,8 +56,9 @@ const simi = (msg) =>
     fetch(`https://api.simsimi.net/v1/?text=${msg}&lang=id&cf=false`, {
       method: "GET",
     })
-      .then((res) => resolve(res.json()))
-      .catch((err) => reject(err));
+      .then((res) => res.json())
+      .then((res) => resolve(res))
+      .catch((err) => resolve({ success: "Maaf Kak Server Busy" }));
   });
 
 io.on("connection", (socket) => {
