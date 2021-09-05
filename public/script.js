@@ -38,7 +38,6 @@ const chat = () => {
     escapeHtml(msg)
   )}<br></div>`;
   document.querySelector("#usermsg").value = "";
-  console.log(hasil);
   socket.emit("chat", { hasil, msg });
 };
 
@@ -61,12 +60,10 @@ function stripslashes(str) {
 }
 
 socket.on("chatId", (data) => {
-  console.log(data);
   let isinow = document.querySelector("#chatbox").innerHTML.trim();
   const chatbox = document.querySelector("#chatbox");
   chatbox.innerHTML = "";
   let isi = document.createElement("div");
   chatbox.appendChild(isi);
   isi.outerHTML = data + isinow;
-  console.log("Socket : " + data);
 });

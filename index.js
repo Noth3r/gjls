@@ -39,7 +39,6 @@ app.get("/meme", async (req, res) => {
 
 app.get("/lk21/:judul", async (req, res) => {
   const judul = req.params.judul;
-  console.log(judul);
   const datas = await lk(judul);
   if (datas == "=> Judul Tidak Ditemukan") {
     res.render("wrong");
@@ -63,12 +62,9 @@ const simi = (msg) =>
 
 io.on("connection", (socket) => {
   socket.on("chat", async (data) => {
-    console.log(data);
-    console.log(data.msg);
     io.emit("chatId", data.hasil);
     if (data.msg[0] == "!") {
       const simichan = await simi(data.msg.replace("!", ""));
-      console.log(simichan);
       const today = new Date();
       let minute = today.getMinutes();
       let second = today.getSeconds();
