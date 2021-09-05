@@ -29,9 +29,9 @@ const chat = () => {
   const player = document.querySelector("#username").value + ": ";
   const today = new Date();
   let minute = today.getMinutes();
+  let second = today.getSeconds();
   minute < 10 ? (minute = "0" + minute) : minute;
   second < 10 ? (second = "0" + second) : second;
-  let second = today.getSeconds();
   const time = today.getHours() + ":" + minute + ":" + second + " ";
 
   const hasil = `<div class="msgln"><span class="chat-time">${time}</span><b class="user-name">${player}</b>${stripslashes(
