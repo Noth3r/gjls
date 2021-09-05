@@ -10,7 +10,7 @@
       integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We"
       crossorigin="anonymous"
     />
-    <title>Meme Generator</title>
+    <title>LK21 Bypass</title>
   </head>
   <body>
     <nav class="navbar sticky-top navbar-light bg-light">
@@ -26,11 +26,14 @@
       </div>
     </nav>
     <div class="container">
-      <h3 style="margin-top: 10px;"><%= datas.judul%></h3>
-      <div class="row" style="margin-top: 10px;">
+      <h3 style="margin-top: 10px" class="text-center"><%= datas.judul%></h3>
+      <div class="row row-cols-4 text-center" style="margin-top: 10px;">
         <% datas.data.forEach((data) => { %>
-          <%=data.source%>
-          <ul><li><%=data.link%></li></ul>
+          <div class="col mb-3">
+            <%=data.source%>
+            <br>
+            <a href="<%=data.link%>" class="btn btn-primary mt-3">Here</a>
+          </div>
         <% })%>
     </div>
   </body>

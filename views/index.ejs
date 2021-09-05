@@ -10,65 +10,98 @@
       integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We"
       crossorigin="anonymous"
     />
+    <link rel="stylesheet" type="text/css" href="css/chat.css" />
     <title>Welcome Home</title>
   </head>
   <body>
     <div class="container">
-      <div class="cuaca" style="text-align: center;">
-        <h6>Today's Weather in <%= cuaca.name%> is <%= cuaca.weather[0].main%></h6>
+      <div class="cuaca" style="text-align: center">
+        <h6>
+          Today's Weather in <%= cuaca.name%> is <%= cuaca.weather[0].main%>
+        </h6>
         <h1 class="title mt-3">What's Do You Want?</h1>
       </div>
-
-        <div class="row mt-5">
-          <div class="col-sm-4 mb-3">
-            <div class="card">
-              <div class="card-body text-center">
-                <h5 class="card-title">Meme Generator</h5>
-                <br>
-                <br>
-                <a href="/meme" class="btn btn-primary">Go somewhere</a>
-              </div>
+      <div class="row mt-5">
+        <div class="col-sm-4 mb-3">
+          <div class="card">
+            <div class="card-body text-center">
+              <h5 class="card-title">Meme Generator</h5>
+              <br />
+              <br />
+              <a href="/meme" class="btn btn-primary">Go somewhere</a>
             </div>
           </div>
-          <div class="col-sm-4 mb-3">
-            <div class="card">
-              <div class="card-body text-center">
-                <h5 class="card-title">LK21 Bypass Link</h5>
-                <input type="text" style="margin-top:10px; width:75%"class="inputLK" />
-                <br>
-                <a href="#" class="movie btn btn-primary mt-2">Go somewhere</a>
-              </div>
+        </div>
+        <div class="col-sm-4 mb-3">
+          <div class="card">
+            <div class="card-body text-center">
+              <h5 class="card-title">LK21 Bypass Link</h5>
+              <input
+                type="text"
+                style="margin-top: 10px; width: 75%"
+                class="inputLK"
+              />
+              <br />
+              <a href="#" class="movie btn btn-primary mt-2">Go somewhere</a>
             </div>
           </div>
-          <div class="col-sm-4 mb-3">
-            <div class="card">
-              <div class="card-body text-center">
-                <h5 class="card-title">Want to Play Uno?</h5>
-                <br>
-                <br>
-                <a href="https://uno-game-jet.vercel.app/" target="_blank" class="btn btn-primary">Go somewhere</a>
-              </div>
+        </div>
+        <div class="col-sm-4 mb-3">
+          <div class="card">
+            <div class="card-body text-center">
+              <h5 class="card-title">Want to Play Uno?</h5>
+              <br />
+              <br />
+              <a
+                href="https://uno-game-jet.vercel.app/"
+                target="_blank"
+                class="btn btn-primary"
+                >Go somewhere</a
+              >
             </div>
           </div>
         </div>
       </div>
     </div>
+    <div class="container" style="text-align: center">
+      <h2>SimiChan Bot</h2>
+      <p>Gunakan Syntax ! untuk mengobrol dengan SimiChan</p>
+      <div class="container chat-cointainer">
+        <div id="login" class="form-container">
+          <h1 id="h1chat">Login</h1>
+          <input
+            autocomplete="off"
+            id="username"
+            type="text"
+            placeholder="Masukkan Nama Anda"
+          />
+          <button type="submit" id="submitmsg" class="btn" onclick="login()">
+            Login
+          </button>
+        </div>
+        <div id="chat" class="form-container">
+          <h1 id="h1chat">SimiChan Chat</h1>
+
+          <div id="chatbox"></div>
+
+          <input
+            autocomplete="off"
+            name="usermsg"
+            type="text"
+            id="usermsg"
+            placeholder="Type message..."
+          />
+          <button type="submit" id="submitmsg" class="btn" onclick="chat()">
+            Send
+          </button>
+        </div>
+      </div>
+    </div>
   </body>
-  <script type="text/javascript">
-    let input = document.querySelector(".inputLK");
-    let movie = document.querySelector(".movie");
-
-    let key = "";
-    input.addEventListener("keypress", (e) => {
-      if (e.key === "Enter") {
-        return;
-      }
-      key += e.key;
-      movie.href = `/lk21/${key}`;
-    });
-
-    movie.addEventListener("click", (e) => {
-      input.value = ""
-    })
-  </script>
+  <script
+    src="https://cdn.socket.io/3.1.3/socket.io.min.js"
+    integrity="sha384-cPwlPLvBTa3sKAgddT6krw0cJat7egBga3DJepJyrLl4Q9/5WLra3rrnMcyTyOnh"
+    crossorigin="anonymous"
+  ></script>
+  <script src="script.js"></script>
 </html>

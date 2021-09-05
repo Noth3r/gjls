@@ -1,12 +1,20 @@
 const express = require("express");
 const fetch = require("node-fetch");
-const dotenv = require("dotenv").config();
+const dotenv = require("dotenv");
+const socketio = require("socket.io");
 const lk = require("./lk");
+const http = require("http");
 
 const app = express();
-const api = process.env.API_WEATHER;
-console.log(api);
+const server = http.createServer(app);
+const io = socketio(server, { cors: { origin: "*" } });
+
+dotenv.config();
+
+app.use(express.static(__dirname + "/public"));
 app.set("view engine", "ejs");
+
+const api = process.env.API_WEATHER;
 
 const getApi = (url) =>
   new Promise((resolve, reject) => {
@@ -20,9 +28,8 @@ const getApi = (url) =>
 app.get("/", async (req, res) => {
   const url = `https://api.openweathermap.org/data/2.5/weather?q=indonesia&appid=${api}&lang=id`;
   const cuaca = await getApi(url);
-  console.log(cuaca);
   res.render("index", { cuaca });
-}); //Home
+});
 
 app.get("/meme", async (req, res) => {
   const url = "https://api.imgflip.com/get_memes";
@@ -41,6 +48,35 @@ app.get("/lk21/:judul", async (req, res) => {
   }
 });
 
-app.listen("3000", (err) => {
-  console.log("listening on http://localhost:3000/");
+server.listen("8000", (err) => {
+  console.log("listening on http://localhost:8000/");
+});
+
+const simi = (msg) =>
+  new Promise((resolve, reject) => {
+    fetch(`https://api.simsimi.net/v1/?text=${msg}&lang=id&cf=false`, {
+      method: "GET",
+    })
+      .then((res) => resolve(res.json()))
+      .catch((err) => reject(err));
+  });
+
+io.on("connection", (socket) => {
+  socket.on("chat", async (data) => {
+    console.log(data);
+    console.log(data.msg);
+    io.emit("chatId", data.hasil);
+    if (data.msg[0] == "!") {
+      const simichan = await simi(data.msg.replace("!", ""));
+      console.log(simichan);
+      const today = new Date();
+      let minute = today.getMinutes();
+      let second = today.getSeconds();
+      minute < 10 ? (minute = "0" + minute) : minute;
+      second < 10 ? (second = "0" + second) : second;
+      const time = today.getHours() + ":" + minute + ":" + second + " ";
+      const msg = `<div class="msgln"><span class="chat-time">${time}</span><b class="user-name">SimiChan: </b>${simichan.success}<br></div>`;
+      io.emit("chatId", msg);
+    }
+  });
 });
