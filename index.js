@@ -4,6 +4,8 @@ const dotenv = require("dotenv");
 const socketio = require("socket.io");
 const lk = require("./lk");
 const http = require("http");
+const upload = require("express-fileupload");
+const { spawn } = require("child_process");
 
 const app = express();
 const server = http.createServer(app);
@@ -11,10 +13,15 @@ const io = socketio(server, { cors: { origin: "*" } });
 
 dotenv.config();
 
+app.use(upload());
 app.use(express.static(__dirname + "/public"));
 app.set("view engine", "ejs");
 
 const api = process.env.API_WEATHER;
+
+const randomInt = (min, max) => {
+  return Math.random() * (max - min) + min;
+};
 
 const getApi = (url) =>
   new Promise((resolve, reject) => {
@@ -26,9 +33,33 @@ const getApi = (url) =>
   });
 
 app.get("/", async (req, res) => {
-  const url = `https://api.openweathermap.org/data/2.5/weather?q=indonesia&appid=${api}&lang=id`;
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=indonesia&appid=${api}`;
   const cuaca = await getApi(url);
   res.render("index", { cuaca });
+});
+
+app.get("/convert", (req, res) => {
+  res.render("speech", { hasil: false });
+});
+
+app.post("/convert", (req, res) => {
+  if (req.files) {
+    const data = req.files.file;
+    if (data.mimetype != "audio/mpeg") {
+      res.send("Only Accept audio files");
+    }
+    const nama = randomInt(10000000, 99999999);
+    data.mv(nama + ".mp3", (err) => {
+      if (err) {
+        res.send(err);
+      } else {
+        const python = spawn("python", ["speech.py", nama]);
+        python.stdout.on("data", function (data) {
+          res.render("speech", { hasil: data.toString() });
+        });
+      }
+    });
+  }
 });
 
 app.get("/meme", async (req, res) => {
@@ -53,7 +84,7 @@ server.listen("8000", (err) => {
 
 const simi = (msg) =>
   new Promise((resolve, reject) => {
-    fetch(`https://api.simsimi.net/v1/?text=${msg}&lang=id&cf=false`, {
+    fetch(`https://simsumi.herokuapp.com/api?text=${msg}&lang=id`, {
       method: "GET",
     })
       .then((res) => res.json())
